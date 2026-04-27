@@ -15,9 +15,13 @@ export class ProductService {
         }
         return productExist;
     }
-    async createProduct(product: ProductDTO) {
-        // const productExists = await this.prismaService.product.findUnique({where:{id}})
-        await this.prismaService.product.create({ data: product })
+    async createProduct(product: ProductDTO, image?: string) {
+        await this.prismaService.product.create({
+            data: {
+                ...product,
+                image: image ? `/uploads/${image}` : null
+            }
+        });
         return "Product Has been created";
     }
     async deleteProduct(id: string) {
